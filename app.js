@@ -1,48 +1,117 @@
 "use strict";
-
-function Employees (employeeID,fullName,department,level,imageURL){
-    this.employeeID =employeeID;
+var all =[];
+function Employees (idNumber,fullName,department,level,URL){
+    this.employeeID =idNumber ;
     this.fullName=fullName;
     this.department=department;
     this.level=level;
-    this.imageURL=imageURL;
+    this.imageURL=URL;
+    this.salary=this.salarys();
+    all.push(this);
 };
 
-Employees.prototype.salary=function(){
+Employees.prototype.salarys=function(){
    if (this.level=="Senior") {
-    return Math.floor(((Math.floor(Math.random() * (2000 - 1500) )) + 1500) * 0.925);
+     this.salary=getRndInteger(1500, 2000);
    }
    if (this.level=="Mid-Senior") {
-    return Math.floor(((Math.floor(Math.random() * (1500 - 1000) )) + 1000) * 0.925);
+     this.salary=getRndInteger(1000, 1500);
    }
    if (this.level=="Junior") {
-    return Math.floor(((Math.floor(Math.random() * (1000 - 500) )) + 500) * 0.925) ;
+     this.salary=getRndInteger(500, 1000);
    }
+   return this.salary=Net(this.salary);
 }
 
-Employees.prototype.InfoHome=function(){
-    return this.fullName + " " +this.salary();
-}
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min) ) + min;
+  }
 
+let idNumber=getRndInteger(1100, 9000);
+
+function Net(salary){
+        return salary=Math.floor((salary*0.925));
+ };
+ let secsec=document.createElement("section");
+ let main = document.getElementById("ma");
+ secsec.style.background="#FFFFFF";
 Employees.prototype.render=function(){
-    return document.write(`<h4>Employee name is  ${this.fullName} & his net salay is ${this.salary()} $</h4>`);
+    let imgEl=document.createElement("img");
+    imgEl.src=this.imageURL;
+    imgEl.style.width="300px";
+    secsec.appendChild(imgEl);
+
+    let h4El=document.createElement("h4");
+    h4El.textContent=`- Employee name : ${this.fullName}`;
+    secsec.appendChild(h4El);
+
+    let h4El2=document.createElement("h4");
+    h4El2.textContent=`- Department : ${this.department}`;
+    secsec.appendChild(h4El2);
+
+    let h4El3=document.createElement("h4");
+    h4El3.textContent=`- Level : ${this.level}`;
+    secsec.appendChild(h4El3);
+
+    let h4El4=document.createElement("h4");
+    h4El4.textContent=`- ID Num. : ${this.employeeID}`;
+    secsec.appendChild(h4El4);
+
+    let h4El5=document.createElement("h4");
+    h4El5.textContent=`- Net salay : ${this.salary} $`;
+    secsec.appendChild(h4El5);
+
+    let hrEl=document.createElement("hr");
+    secsec.appendChild(hrEl);
+
+    let brEl=document.createElement("br");
+    main.appendChild(brEl);
+
+    main.appendChild(secsec);
+   
+    
 }
 
-let employee1 = new Employees(1000,"Ghazi Samer","Administration","Senior",  );
-let employee2 = new Employees(1001,"Lana Ali","Finance","Senior",  );
-let employee3 = new Employees(1002,"Tamara Ayoub","Marketing","Senior",  );
-let employee4 = new Employees(1003,"Safi Walid","Administration","Mid-Senior", );
-let employee5 = new Employees(1004,"Omar Zaid","Development","Senior",  );
-let employee6 = new Employees(1005,"Rana Saleh","Development","Junior",  );
-let employee7 = new Employees(1006,"Hadi Ahmad","Finance","Mid-Senior",  );
+let employee1 = new Employees(1000,"Ghazi Samer","Administration","Senior","https://github.com/LTUC/amman-prep-d10/blob/main/Class-08/lab/assets/Ghazi.jpg?raw=true");
+let employee2 = new Employees(1001,"Lana Ali","Finance","Senior","https://github.com/LTUC/amman-prep-d10/blob/main/Class-08/lab/assets/Lana.jpg?raw=true");
+let employee3 = new Employees(1002,"Tamara Ayoub","Marketing","Senior","https://github.com/LTUC/amman-prep-d10/blob/main/Class-08/lab/assets/Tamara.jpg?raw=true");
+let employee4 = new Employees(1003,"Safi Walid","Administration","Mid-Senior","https://github.com/LTUC/amman-prep-d10/blob/main/Class-08/lab/assets/Safi.jpg?raw=true");
+let employee5 = new Employees(1004,"Omar Zaid","Development","Senior","https://github.com/LTUC/amman-prep-d10/blob/main/Class-08/lab/assets/Omar.jpg?raw=true");
+let employee6 = new Employees(1005,"Rana Saleh","Development","Junior","https://github.com/LTUC/amman-prep-d10/blob/main/Class-08/lab/assets/Rana.jpg?raw=true");
+let employee7 = new Employees(1006,"Hadi Ahmad","Finance","Mid-Senior","https://github.com/LTUC/amman-prep-d10/blob/main/Class-08/lab/assets/Hadi.jpg?raw=true");
 
-employee1.render();
-employee2.render();
-employee3.render();
-employee4.render();
-employee5.render();
-employee6.render();
-employee7.render();
+
+function caller (all){
+    for (let i=0;i<all.length;i++){
+        all[i].render();
+    }
+}
+caller(all);
+
+let form =document.getElementById("form");
+form.addEventListener("submit",submitting);
+function submitting(event) {
+    event.preventDefault();
+    // alert("form successfully submitted")
+    let fName=event.target.fName.value;
+    let Department=event.target.department.value;
+    let Level=event.target.level.value;
+    let URL=event.target.imgUrl.value;
+    // console.log(fName);
+    // console.log(Department);
+    // console.log(Level);
+    // console.log(URL);
+
+    let employee= new Employees(idNumber++,fName,Department,Level,URL);
+    employee.render();
+};
+
+
+
+
+
+
+
 
 
 
