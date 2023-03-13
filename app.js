@@ -1,11 +1,11 @@
 "use strict";
 var all =[];
-function Employees (idNumber,fullName,department,level,URL){
+function Employees (idNumber,fullName,department,level,imageURL){
     this.employeeID =idNumber ;
     this.fullName=fullName;
     this.department=department;
     this.level=level;
-    this.imageURL=URL;
+    this.imageURL=imageURL;
     this.salary=this.salarys();
     all.push(this);
 };
@@ -81,12 +81,30 @@ let employee6 = new Employees(1005,"Rana Saleh","Development","Junior","https://
 let employee7 = new Employees(1006,"Hadi Ahmad","Finance","Mid-Senior","https://github.com/LTUC/amman-prep-d10/blob/main/Class-08/lab/assets/Hadi.jpg?raw=true");
 
 
-function caller (all){
-    for (let i=0;i<all.length;i++){
-        all[i].render();
-    }
+function caller(){
+  for (let i=0;i<all.length;i++){
+      all[i].render();
+  }
 }
-caller(all);
+// function caller (){
+//   let k=0;
+//     for (let i=0;i<all.length;i++){
+//       for(let j=0;j<all.length;j++){
+//         if (all[i]==all[j]){
+//           if(k==0){
+//             k++;
+//             all[i].render();
+//           }
+//           if(i==all.length-1){
+//             k=0;
+//           }
+//         } 
+
+//       }
+//     }
+// }
+caller();
+
 
 let form =document.getElementById("form");
 form.addEventListener("submit",submitting);
@@ -96,26 +114,43 @@ function submitting(event) {
     let fName=event.target.fName.value;
     let Department=event.target.department.value;
     let Level=event.target.level.value;
-    let URL=event.target.imgUrl.value;
+    let imageURL=event.target.imgUrl.value;
     // console.log(fName);
     // console.log(Department);
     // console.log(Level);
     // console.log(URL);
 
-    let employee= new Employees(idNumber++,fName,Department,Level,URL);
+    let employee= new Employees(idNumber++,fName,Department,Level,imageURL);
     employee.render();
+    saveData(all);
 };
 
+// 1.save all in local storage
+// 2. get all from local storage
+// 3. render all agian by render method
 
+function saveData(data){
+  let stringArr=JSON.stringify(data);
+  localStorage.setItem('Employees', stringArr)
+}
 
+function getData (){
+  let retreivedArr=localStorage.getItem('Employees');
+  // console.log(retreivedArr);
+  let objArr=JSON.parse(retreivedArr);
+  // console.log(objArr);
+  if (objArr!= null){
+  for (let i = 0; i < objArr.length; i++) {
+    new Employees(objArr[i].idNumber,objArr[i].fullName,objArr[i].department,objArr[i].level,objArr[i].imageURL)   
+  } 
+  caller();
+}
 
-
-
-
-
-
-
-
-
+// let newItem=new Employees(objArr[objArr.length -1].idNumber,objArr[objArr.length -1].fullName,objArr[objArr.length -1].department,objArr[objArr.length -1].level,objArr[objArr.length -1].imageURL);
+//     newItem.render();
+// } 
+}
+getData();
+// console.log(all);
 
 
